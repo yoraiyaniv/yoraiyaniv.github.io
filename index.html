@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mission Tracker</title>
     <style>
-        /* ... (Existing Styles) ... */
         * {
             margin: 0;
             padding: 0;
@@ -38,6 +37,171 @@
             margin-bottom: 10px;
             font-size: 28px;
             text-align: right;
+        }
+
+        /* Login Screen Styles */
+        .login-screen {
+            text-align: center;
+        }
+
+        .login-screen h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .input-group {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .input-group label {
+            display: block;
+            text-align: right;
+            margin-bottom: 8px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-button {
+            padding: 12px 40px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .login-button:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* User Info Header */
+        .user-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            direction: rtl;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .logout-button {
+            padding: 6px 12px;
+            background: #fee2e2;
+            color: #ef4444;
+            border: 1px solid #fca5a5;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-button:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Rakaz Selector */
+        .katagis-selector {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            direction: rtl;
+        }
+
+        .katagis-selector label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .katagis-selector select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: right;
+            direction: rtl;
+        }
+
+        /* Admin View */
+        .admin-list {
+            direction: rtl;
+        }
+
+        .admin-item {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .admin-item:hover {
+            border-color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        .admin-item-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .admin-progress {
+            font-size: 14px;
+            color: #666;
         }
 
         .section-header {
@@ -73,7 +237,7 @@
             align-items: center;
             gap: 15px;
             transition: all 0.3s;
-            direction: rtl; /* Align content for Hebrew */
+            direction: rtl;
         }
 
         .checklist-item.completed {
@@ -113,7 +277,6 @@
             transition: width 0.3s ease;
         }
 
-        /* Button Container */
         .action-buttons {
             display: flex;
             flex-direction: column;
@@ -143,7 +306,6 @@
             cursor: not-allowed;
         }
 
-        /* NEW RED RESET BUTTON STYLE */
         .reset-button {
             padding: 6px 12px;
             background: #fee2e2;
@@ -189,7 +351,34 @@
             transition: width 0.3s ease;
         }
 
-        /* Celebration Styles (unchanged) */
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+
+        /* Back Button */
+        .back-button {
+            padding: 8px 16px;
+            background: #e0e0e0;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background: #d0d0d0;
+        }
+
         .celebration { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
         .confetti { position: absolute; width: 100px; height: 10px; background: #f0f; animation: confetti-fall 3s linear forwards; }
         @keyframes confetti-fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
@@ -202,165 +391,510 @@
 </head>
 <body>
     <div class="container">
-        <h1>מעקב משימות</h1>
-
-        <div class="section-header">
-            <h3>התנסות שלי</h3>
-            <span class="count-badge" id="checklistCount">0</span>
-        </div>
-
-        <div class="overall-progress">
-            <div class="overall-progress-label">התקדמות כללית: <span id="overallProgressText">0%</span></div>
-            <div class="overall-progress-bar-container">
-                <div class="overall-progress-bar" id="overallProgressBar" style="width: 0%"></div>
+        <!-- Login Screen -->
+        <div id="loginScreen" class="login-screen">
+            <h2>התחברות למערכת</h2>
+            <div class="login-form">
+                <div class="input-group">
+                    <label for="userId">מספר מזהה</label>
+                    <input type="text" id="userId" placeholder="הכנס מספר מזהה">
+                </div>
+                <button class="login-button" onclick="login()">התחבר</button>
+                <div id="loginError" class="error-message hidden"></div>
             </div>
         </div>
 
-        <div id="checklistItems"></div>
+        <!-- Main Content (hidden initially) -->
+        <div id="mainContent" class="hidden">
+            <!-- User Info Header -->
+            <div class="user-info">
+                <div class="user-info-text">
+                    שלום, <span class="user-name" id="userName"></span>
+                    <span id="roleText"></span>
+                </div>
+            </div>
+
+            <!-- Katagis View -->
+            <div id="katagisView" class="hidden">
+                <h1>מעקב משימות</h1>
+                <div class="section-header">
+                    <h3>ההתנסות שלי</h3>
+                    <span class="count-badge" id="checklistCount">0</span>
+                </div>
+                <div class="overall-progress">
+                    <div class="overall-progress-label">התקדמות כללית: <span id="overallProgressText">0%</span></div>
+                    <div class="overall-progress-bar-container">
+                        <div class="overall-progress-bar" id="overallProgressBar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div id="checklistItems"></div>
+            </div>
+
+            <!-- Rakaz View -->
+            <div id="rakazView" class="hidden">
+                <h1>ניהול צוות</h1>
+                <div class="katagis-selector">
+                    <label>בחר מתנסה:</label>
+                    <select id="katagisSelect" onchange="loadSelectedKatagis()">
+                        <option value="">-- בחר מתנסה --</option>
+                    </select>
+                </div>
+                <div id="rakazChecklistView" class="hidden">
+                    <div class="section-header">
+                        <h3>התנסות של <span id="selectedKatagisName"></span></h3>
+                        <span class="count-badge" id="rakazChecklistCount">0</span>
+                    </div>
+                    <div class="overall-progress">
+                        <div class="overall-progress-label">התקדמות כללית: <span id="rakazOverallProgressText">0%</span></div>
+                        <div class="overall-progress-bar-container">
+                            <div class="overall-progress-bar" id="rakazOverallProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div id="rakazChecklistItems"></div>
+                </div>
+            </div>
+
+            <!-- Admin View -->
+            <div id="adminView" class="hidden">
+                <h1>תצוגת מנהל</h1>
+                <div id="adminKatagisList" class="admin-list"></div>
+                <div id="adminDetailView" class="hidden">
+                    <button class="back-button" onclick="showAdminList()">← חזור לרשימה</button>
+                    <div class="section-header">
+                        <h3>התנסות של <span id="adminSelectedName"></span></h3>
+                        <span class="count-badge" id="adminChecklistCount">0</span>
+                    </div>
+                    <div class="overall-progress">
+                        <div class="overall-progress-label">התקדמות כללית: <span id="adminOverallProgressText">0%</span></div>
+                        <div class="overall-progress-bar-container">
+                            <div class="overall-progress-bar" id="adminOverallProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div id="adminChecklistItems"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loadingMessage" class="loading hidden">טוען...</div>
     </div>
 
-    <script>
-        const STORAGE_KEY = 'missionTrackerData';
-        const defaultData = {
-            checklist: [
-                { id: "C001", title: "להשתתף בישבץ", current: 0, total: 3 },
-                { id: "C002", title: "לעשות צפי עם המדריך", current: 0, total: 4 },
-                { id: "C003", title: "להעביר צפי לבד", current: 0, total: 1 },
-                { id: "C004", title: "להפגש עם המדריך לכתוב פעולה", current: 0, total: 4 },
-                { id: "C005", title: "להעביר משחק פתיחה", current: 0, total: 3 },
-                { id: "C006", title: "להיות בהורדת סירות", current: 0, total: 6 },
-                { id: "C007", title: "להיות בהרמת סירות וחיסולים", current: 0, total: 5 },
-                { id: "C008", title: "להעביר זמן תוכן", current: 0, total: 1 },
-                { id: "C009", title: "להעביר דיון", current: 0, total: 1 },
-                { id: "C010", title: "להעביר שיחת סיכום", current: 0, total: 1 },
-                { id: "C011", title: "להיות אחראי על הכנת סירה", current: 0, total: 2 },
-                { id: "C012", title: "לעשות יציאה מהמזח", current: 0, total: 2 },
-                { id: "C013", title: "לפקד על עגינה", current: 0, total: 2 },
-                { id: "C014", title: "להעביר משחק בסירה/לפקד", current: 0, total: 2 },
-                { id: "C015", title: "להיקשר למזח", current: 0, total: 2 },
-                { id: "C016", title: "להיות אחראי על חיסול סירה", current: 0, total: 2 }
-            ]
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+        import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+
+        const firebaseConfig = {
+            authDomain: "tzita-9a1b5.firebaseapp.com",
+            databaseURL: "https://tzita-9a1b5-default-rtdb.firebaseio.com",
+            projectId: "tzita-9a1b5",
+            appId: "1:43152262444:web:e8aa6e7d7fbb99ff9b5889",
         };
 
-        let userData = null;
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-        function initStorage() {
-            try {
-                const stored = localStorage.getItem(STORAGE_KEY);
-                userData = stored ? JSON.parse(stored) : JSON.parse(JSON.stringify(defaultData));
-                if (!stored) saveData();
-            } catch (e) {
-                userData = JSON.parse(JSON.stringify(defaultData));
+        const missions = ["C001", "C002", "C003", "C004", "C005", "C006", "C007", "C008", "C009", "C010", "C011", "C012", "C013", "C014", "C015", "C016"];
+        
+        const missionDetails = {
+            "C001": { title: "להשתתף בישבץ", total: 3 },
+            "C002": { title: "לעשות צפי עם המדריך", total: 4 },
+            "C003": { title: "להעביר צפי לבד", total: 1 },
+            "C004": { title: "להפגש עם המדריך לכתוב פעולה", total: 4 },
+            "C005": { title: "להעביר משחק פתיחה", total: 3 },
+            "C006": { title: "להיות בהורדת סירות", total: 6 },
+            "C007": { title: "להיות בהרמת סירות וחיסולים", total: 5 },
+            "C008": { title: "להעביר זמן תוכן", total: 1 },
+            "C009": { title: "להעביר דיון", total: 1 },
+            "C010": { title: "להעביר שיחת סיכום", total: 1 },
+            "C011": { title: "להיות אחראי על הכנת סירה", total: 2 },
+            "C012": { title: "לעשות יציאה מהמזח", total: 2 },
+            "C013": { title: "לפקד על עגינה", total: 2 },
+            "C014": { title: "להעביר משחק בסירה/לפקד", total: 2 },
+            "C015": { title: "להיקשר למזח", total: 2 },
+            "C016": { title: "להיות אחראי על חיסול סירה", total: 2 }
+        };
+
+        let currentUser = null;
+        let selectedKatagisId = null;
+        let allKatagisData = null;
+
+        // Local storage for user ID
+        const STORAGE_KEY = 'currentUserId';
+
+        // Initialize app
+        async function init() {
+            const storedId = localStorage.getItem(STORAGE_KEY);
+            if (storedId) {
+                await attemptLogin(storedId);
+            } else {
+                showLoginScreen();
             }
         }
 
-        function saveData() {
+        function showLoginScreen() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+        }
+
+        window.login = async function() {
+            const userId = document.getElementById('userId').value.trim();
+            if (!userId) {
+                showError('אנא הכנס מספר מזהה');
+                return;
+            }
+            await attemptLogin(userId);
+        };
+
+        async function attemptLogin(userId) {
+            showLoading(true);
+            hideError();
+            
             try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
-            } catch (e) {
-                console.error('Failed to save data:', e);
+                const userData = await getIdData(userId);
+                
+                if (!userData) {
+                    showError('מספר מזהה לא נמצא במערכת');
+                    showLoading(false);
+                    showLoginScreen();
+                    return;
+                }
+
+                currentUser = {
+                    id: userId,
+                    ...userData
+                };
+
+                localStorage.setItem(STORAGE_KEY, userId);
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+                
+                showUserView();
+                showLoading(false);
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('שגיאה בהתחברות למערכת');
+                showLoading(false);
+                showLoginScreen();
+            }
+        };
+
+        window.logout = function() {
+            localStorage.removeItem(STORAGE_KEY);
+            currentUser = null;
+            selectedKatagisId = null;
+            showLoginScreen();
+        };
+
+        async function getIdData(id) {
+            const snapshot = await get(ref(db, id.toString()));
+            return snapshot.exists() ? snapshot.val() : null;
+        }
+
+        function showUserView() {
+            document.getElementById('userName').textContent = currentUser.name;
+            
+            // Hide all views
+            document.getElementById('katagisView').classList.add('hidden');
+            document.getElementById('rakazView').classList.add('hidden');
+            document.getElementById('adminView').classList.add('hidden');
+
+            if (currentUser.role === 'katagis') {
+                document.getElementById('roleText').textContent = '(מתנסה)';
+                document.getElementById('katagisView').classList.remove('hidden');
+                displayKatagisChecklist();
+            } else if (currentUser.role === 'rakaz') {
+                document.getElementById('roleText').textContent = '(רכ"ז)';
+                document.getElementById('rakazView').classList.remove('hidden');
+                loadRakazTzevet();
+            } else if (currentUser.role === 'admin') {
+                document.getElementById('roleText').textContent = '(מנהל)';
+                document.getElementById('adminView').classList.remove('hidden');
+                loadAllKatagis();
             }
         }
 
-        function displayChecklist() {
+        // KATAGIS VIEW - Read Only
+        async function displayKatagisChecklist() {
             const checklistDiv = document.getElementById('checklistItems');
             checklistDiv.innerHTML = '';
 
-            userData.checklist.forEach((item, index) => {
-                const div = document.createElement('div');
-                const isCompleted = item.current >= item.total;
-                const percentage = (item.current / item.total) * 100;
+            missions.forEach(missionId => {
+                const current = currentUser.status[missionId] || 0;
+                const total = missionDetails[missionId].total;
+                const title = missionDetails[missionId].title;
+                const isCompleted = current >= total;
+                const percentage = (current / total) * 100;
 
+                const div = document.createElement('div');
                 div.className = `checklist-item ${isCompleted ? 'completed' : ''}`;
                 div.innerHTML = `
                     <div class="checklist-content">
-                        <div class="checklist-title">${item.title}</div>
+                        <div class="checklist-title">${title}</div>
                         <div class="progress-bar-container">
                             <div class="progress-bar" style="width: ${percentage}%; ${isCompleted ? 'background: #10b981;' : ''}"></div>
                         </div>
                         <div style="font-size: 12px; color: #666; margin-top: 5px;">
-                            ${item.current} / ${item.total} ${isCompleted ? '✓ הושלם' : ''}
+                            ${current} / ${total} ${isCompleted ? '✓ הושלם' : ''}
+                        </div>
+                    </div>
+                `;
+                checklistDiv.appendChild(div);
+            });
+
+            updateOverallProgress('katagis', currentUser.status);
+        }
+
+        // RAKAZ VIEW
+        async function loadRakazTzevet() {
+            const select = document.getElementById('katagisSelect');
+            select.innerHTML = '<option value="">-- בחר מתנסה --</option>';
+
+            if (!currentUser.tzevet) return;
+
+            for (const katagisId in currentUser.tzevet) {
+                const katagisData = await getIdData(katagisId);
+                if (katagisData && katagisData.role === 'katagis') {
+                    const option = document.createElement('option');
+                    option.value = katagisId;
+                    option.textContent = katagisData.name;
+                    select.appendChild(option);
+                }
+            }
+        }
+
+        window.loadSelectedKatagis = async function() {
+            const select = document.getElementById('katagisSelect');
+            selectedKatagisId = select.value;
+
+            if (!selectedKatagisId) {
+                document.getElementById('rakazChecklistView').classList.add('hidden');
+                return;
+            }
+
+            const katagisData = await getIdData(selectedKatagisId);
+            if (!katagisData) return;
+
+            document.getElementById('selectedKatagisName').textContent = katagisData.name;
+            document.getElementById('rakazChecklistView').classList.remove('hidden');
+            
+            displayRakazChecklist(katagisData.status);
+        };
+
+        function displayRakazChecklist(status) {
+            const checklistDiv = document.getElementById('rakazChecklistItems');
+            checklistDiv.innerHTML = '';
+
+            missions.forEach((missionId, index) => {
+                const current = status[missionId] || 0;
+                const total = missionDetails[missionId].total;
+                const title = missionDetails[missionId].title;
+                const isCompleted = current >= total;
+                const percentage = (current / total) * 100;
+
+                const div = document.createElement('div');
+                div.className = `checklist-item ${isCompleted ? 'completed' : ''}`;
+                div.innerHTML = `
+                    <div class="checklist-content">
+                        <div class="checklist-title">${title}</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${percentage}%; ${isCompleted ? 'background: #10b981;' : ''}"></div>
+                        </div>
+                        <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                            ${current} / ${total} ${isCompleted ? '✓ הושלם' : ''}
                         </div>
                     </div>
                     <div class="action-buttons">
-                        <button class="check-button" onclick="incrementProgress(${index})" ${isCompleted ? 'disabled' : ''}>
+                        <button class="check-button" onclick="incrementRakazProgress('${missionId}')" ${isCompleted ? 'disabled' : ''}>
                             ${isCompleted ? 'הושלם' : '+ סימון'}
                         </button>
-                        <button class="reset-button" onclick="resetTask(${index})">
+                        <button class="reset-button" onclick="resetRakazTask('${missionId}')">
                             איפוס
                         </button>
                     </div>
                 `;
                 checklistDiv.appendChild(div);
             });
+
+            updateOverallProgress('rakaz', status);
         }
 
-        function incrementProgress(index) {
-            if (userData.checklist[index].current < userData.checklist[index].total) {
-                userData.checklist[index].current++;
-                saveData();
-                refreshUI();
-                checkCompletion();
+        window.incrementRakazProgress = async function(missionId) {
+            if (!selectedKatagisId) return;
+
+            const katagisData = await getIdData(selectedKatagisId);
+            const current = katagisData.status[missionId] || 0;
+            const total = missionDetails[missionId].total;
+
+            if (current < total) {
+                const updates = {};
+                updates[`${selectedKatagisId}/status/${missionId}`] = current + 1;
+                await update(ref(db), updates);
+                loadSelectedKatagis();
+            }
+        };
+
+        window.resetRakazTask = async function(missionId) {
+            if (!selectedKatagisId) return;
+
+            const title = missionDetails[missionId].title;
+            if (confirm(`האם לאפס את ההתקדמות במשימה: "${title}"?`)) {
+                const updates = {};
+                updates[`${selectedKatagisId}/status/${missionId}`] = 0;
+                await update(ref(db), updates);
+                loadSelectedKatagis();
+            }
+        };
+
+        // ADMIN VIEW
+        async function loadAllKatagis() {
+            showLoading(true);
+            const snapshot = await get(ref(db));
+            allKatagisData = {};
+
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                for (const userId in data) {
+                    if (data[userId].role === 'katagis') {
+                        allKatagisData[userId] = data[userId];
+                    }
+                }
+            }
+
+            displayAdminList();
+            showLoading(false);
+        }
+
+        function displayAdminList() {
+            const listDiv = document.getElementById('adminKatagisList');
+            listDiv.innerHTML = '';
+
+            document.getElementById('adminDetailView').classList.add('hidden');
+
+            for (const userId in allKatagisData) {
+                const katagis = allKatagisData[userId];
+                const progress = calculateProgress(katagis.status);
+
+                const div = document.createElement('div');
+                div.className = 'admin-item';
+                div.onclick = () => showAdminDetail(userId);
+                div.innerHTML = `
+                    <div class="admin-item-name">${katagis.name}</div>
+                    <div class="admin-progress">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${progress}%"></div>
+                        </div>
+                        <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                            התקדמות כללית: ${progress}%
+                        </div>
+                    </div>
+                `;
+                listDiv.appendChild(div);
             }
         }
 
-        // NEW RESET FUNCTION
-        function resetTask(index) {
-            if (confirm(`האם לאפס את ההתקדמות במשימה: "${userData.checklist[index].title}"?`)) {
-                userData.checklist[index].current = 0;
-                saveData();
-                refreshUI();
-            }
+        window.showAdminList = function() {
+            displayAdminList();
+        };
+
+        window.showAdminDetail = function(userId) {
+            selectedKatagisId = userId;
+            const katagis = allKatagisData[userId];
+
+            document.getElementById('adminKatagisList').style.display = 'none';
+            document.getElementById('adminDetailView').classList.remove('hidden');
+            document.getElementById('adminSelectedName').textContent = katagis.name;
+
+            displayAdminChecklist(katagis.status);
+        };
+
+        function displayAdminChecklist(status) {
+            const checklistDiv = document.getElementById('adminChecklistItems');
+            checklistDiv.innerHTML = '';
+
+            missions.forEach(missionId => {
+                const current = status[missionId] || 0;
+                const total = missionDetails[missionId].total;
+                const title = missionDetails[missionId].title;
+                const isCompleted = current >= total;
+                const percentage = (current / total) * 100;
+
+                const div = document.createElement('div');
+                div.className = `checklist-item ${isCompleted ? 'completed' : ''}`;
+                div.innerHTML = `
+                    <div class="checklist-content">
+                        <div class="checklist-title">${title}</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${percentage}%; ${isCompleted ? 'background: #10b981;' : ''}"></div>
+                        </div>
+                        <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                            ${current} / ${total} ${isCompleted ? '✓ הושלם' : ''}
+                        </div>
+                    </div>
+                `;
+                checklistDiv.appendChild(div);
+            });
+
+            updateOverallProgress('admin', status);
         }
 
-        function refreshUI() {
-            displayChecklist();
-            updateOverallProgress();
-        }
-
-        function updateOverallProgress() {
+        // Helper Functions
+        function calculateProgress(status) {
             let totalItems = 0;
             let completedItems = 0;
 
-            userData.checklist.forEach(item => {
-                totalItems += item.total;
-                completedItems += item.current;
+            missions.forEach(missionId => {
+                const current = status[missionId] || 0;
+                const total = missionDetails[missionId].total;
+                totalItems += total;
+                completedItems += current;
             });
 
-            const percentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
-            document.getElementById('overallProgressBar').style.width = percentage + '%';
-            document.getElementById('overallProgressText').textContent = percentage + '%';
-            document.getElementById('checklistCount').textContent = userData.checklist.length;
+            return totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
         }
 
-        function checkCompletion() {
-            const allComplete = userData.checklist.every(item => item.current >= item.total);
-            if (allComplete) { celebrate(); }
-        }
-
-        function celebrate() {
-            const celebration = document.createElement('div');
-            celebration.className = 'celebration';
-            document.body.appendChild(celebration);
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.background = ['#667eea', '#764ba2', '#10b981'][Math.floor(Math.random()*3)];
-                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    celebration.appendChild(confetti);
-                }, i * 50);
+        function updateOverallProgress(view, status) {
+            const percentage = calculateProgress(status);
+            
+            let barId, textId, countId;
+            if (view === 'katagis') {
+                barId = 'overallProgressBar';
+                textId = 'overallProgressText';
+                countId = 'checklistCount';
+            } else if (view === 'rakaz') {
+                barId = 'rakazOverallProgressBar';
+                textId = 'rakazOverallProgressText';
+                countId = 'rakazChecklistCount';
+            } else if (view === 'admin') {
+                barId = 'adminOverallProgressBar';
+                textId = 'adminOverallProgressText';
+                countId = 'adminChecklistCount';
             }
-            const message = document.createElement('div');
-            message.className = 'celebration-message';
-            message.innerHTML = `<div class="celebration-emoji">🎉</div><h2>כל הכבוד!</h2><p>סיימת את כל המשימות!</p>`;
-            document.body.appendChild(message);
-            setTimeout(() => { celebration.remove(); message.remove(); }, 4000);
+
+            document.getElementById(barId).style.width = percentage + '%';
+            document.getElementById(textId).textContent = percentage + '%';
+            document.getElementById(countId).textContent = missions.length;
         }
 
-        initStorage();
-        refreshUI();
+        function showLoading(show) {
+            document.getElementById('loadingMessage').classList.toggle('hidden', !show);
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('loginError').classList.add('hidden');
+        }
+
+        // Make functions globally available
+        window.incrementRakazProgress = incrementRakazProgress;
+        window.resetRakazTask = resetRakazTask;
+        window.showAdminDetail = showAdminDetail;
+
+        // Initialize on load
+        init();
     </script>
 </body>
 </html>
