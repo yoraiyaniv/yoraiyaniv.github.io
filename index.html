@@ -25,7 +25,7 @@
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
+            max-width: 900px;
             width: 100%;
             padding: 40px;
             max-height: 90vh;
@@ -173,9 +173,79 @@
             direction: rtl;
         }
 
-        /* Admin View */
+        /* Admin View Enhancements */
+        .admin-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            direction: rtl;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .view-toggle button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            color: #666;
+        }
+
+        .view-toggle button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tzevet-section {
+            margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .tzevet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            direction: rtl;
+        }
+
+        .tzevet-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .tzevet-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
         .admin-list {
             direction: rtl;
+            display: grid;
+            gap: 12px;
         }
 
         .admin-item {
@@ -183,7 +253,6 @@
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             padding: 15px;
-            margin-bottom: 12px;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -193,10 +262,25 @@
             transform: translateX(-5px);
         }
 
+        .admin-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
         .admin-item-name {
             font-weight: 600;
             color: #333;
-            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .admin-item-id {
+            font-size: 12px;
+            color: #999;
+            background: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 4px;
         }
 
         .admin-progress {
@@ -379,14 +463,34 @@
             background: #d0d0d0;
         }
 
-        .celebration { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
-        .confetti { position: absolute; width: 100px; height: 10px; background: #f0f; animation: confetti-fall 3s linear forwards; }
-        @keyframes confetti-fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
-        .celebration-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); text-align: center; z-index: 1001; animation: celebration-popup 0.5s ease forwards; }
-        @keyframes celebration-popup { to { transform: translate(-50%, -50%) scale(1); } }
-        .celebration-message h2 { font-size: 32px; color: #10b981; margin-bottom: 10px; }
-        .celebration-emoji { font-size: 64px; margin-bottom: 20px; animation: bounce 1s infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        /* Summary Cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .summary-card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .summary-card-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -457,9 +561,48 @@
             <!-- Admin View -->
             <div id="adminView" class="hidden">
                 <h1>תצוגת מנהל</h1>
-                <div id="adminKatagisList" class="admin-list"></div>
+                
+                <!-- Admin Controls -->
+                <div class="admin-controls">
+                    <div class="view-toggle">
+                        <button onclick="setAdminView('overview')" class="active" id="overviewBtn">סקירה כללית</button>
+                        <button onclick="setAdminView('tzevet')" id="tzevetBtn">לפי צוותים</button>
+                        <button onclick="setAdminView('all')" id="allBtn">כל המתנסים</button>
+                    </div>
+                </div>
+
+                <!-- Overview View -->
+                <div id="adminOverview">
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <div class="summary-card-value" id="totalKatagis">0</div>
+                            <div class="summary-card-label">סך מתנסים</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-value" id="totalTzvatim">0</div>
+                            <div class="summary-card-label">סך צוותים</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-value" id="avgProgress">0%</div>
+                            <div class="summary-card-label">התקדמות ממוצעת</div>
+                        </div>
+                    </div>
+                    <div id="overviewContent"></div>
+                </div>
+
+                <!-- Tzevet View -->
+                <div id="adminTzevetView" class="hidden">
+                    <div id="tzevetContent"></div>
+                </div>
+
+                <!-- All Katagis View -->
+                <div id="adminAllView" class="hidden">
+                    <div id="adminKatagisList" class="admin-list"></div>
+                </div>
+
+                <!-- Detail View -->
                 <div id="adminDetailView" class="hidden">
-                    <button class="back-button" onclick="showAdminList()">← חזור לרשימה</button>
+                    <button class="back-button" onclick="backFromAdminDetail()">← חזור</button>
                     <div class="section-header">
                         <h3>התנסות של <span id="adminSelectedName"></span></h3>
                         <span class="count-badge" id="adminChecklistCount">0</span>
@@ -516,6 +659,9 @@
         let currentUser = null;
         let selectedKatagisId = null;
         let allKatagisData = null;
+        let allRakazData = null;
+        let currentAdminView = 'overview';
+        let previousAdminView = 'overview';
 
         // Local storage for user ID
         const STORAGE_KEY = 'currentUserId';
@@ -608,7 +754,7 @@
             } else if (currentUser.role === 'admin') {
                 document.getElementById('roleText').textContent = '(מנהל)';
                 document.getElementById('adminView').classList.remove('hidden');
-                loadAllKatagis();
+                loadAllData();
             }
         }
 
@@ -745,29 +891,191 @@
         };
 
         // ADMIN VIEW
-        async function loadAllKatagis() {
+        async function loadAllData() {
             showLoading(true);
             const snapshot = await get(ref(db));
             allKatagisData = {};
+            allRakazData = {};
 
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 for (const userId in data) {
                     if (data[userId].role === 'katagis') {
                         allKatagisData[userId] = data[userId];
+                    } else if (data[userId].role === 'rakaz') {
+                        allRakazData[userId] = data[userId];
                     }
                 }
             }
 
-            displayAdminList();
+            setAdminView(currentAdminView);
             showLoading(false);
         }
 
-        function displayAdminList() {
+        window.setAdminView = function(view) {
+            currentAdminView = view;
+            
+            // Update button states
+            document.getElementById('overviewBtn').classList.toggle('active', view === 'overview');
+            document.getElementById('tzevetBtn').classList.toggle('active', view === 'tzevet');
+            document.getElementById('allBtn').classList.toggle('active', view === 'all');
+
+            // Show/hide views
+            document.getElementById('adminOverview').classList.toggle('hidden', view !== 'overview');
+            document.getElementById('adminTzevetView').classList.toggle('hidden', view !== 'tzevet');
+            document.getElementById('adminAllView').classList.toggle('hidden', view !== 'all');
+            document.getElementById('adminDetailView').classList.add('hidden');
+
+            if (view === 'overview') {
+                displayAdminOverview();
+            } else if (view === 'tzevet') {
+                displayAdminTzevetView();
+            } else if (view === 'all') {
+                displayAdminAllView();
+            }
+        };
+
+        function displayAdminOverview() {
+            const totalKatagis = Object.keys(allKatagisData).length;
+            const totalTzvatim = Object.keys(allRakazData).length;
+            
+            let totalProgress = 0;
+            for (const userId in allKatagisData) {
+                totalProgress += calculateProgress(allKatagisData[userId].status);
+            }
+            const avgProgress = totalKatagis > 0 ? Math.round(totalProgress / totalKatagis) : 0;
+
+            document.getElementById('totalKatagis').textContent = totalKatagis;
+            document.getElementById('totalTzvatim').textContent = totalTzvatim;
+            document.getElementById('avgProgress').textContent = avgProgress + '%';
+
+            // Show quick stats by tzevet
+            const overviewContent = document.getElementById('overviewContent');
+            overviewContent.innerHTML = '';
+
+            for (const rakazId in allRakazData) {
+                const rakaz = allRakazData[rakazId];
+                const tzevetKatagis = [];
+                let tzevetTotalProgress = 0;
+
+                if (rakaz.tzevet) {
+                    for (const katagisId in rakaz.tzevet) {
+                        if (allKatagisData[katagisId]) {
+                            tzevetKatagis.push({
+                                id: katagisId,
+                                ...allKatagisData[katagisId]
+                            });
+                            tzevetTotalProgress += calculateProgress(allKatagisData[katagisId].status);
+                        }
+                    }
+                }
+
+                const avgTzevetProgress = tzevetKatagis.length > 0 ? 
+                    Math.round(tzevetTotalProgress / tzevetKatagis.length) : 0;
+
+                const div = document.createElement('div');
+                div.className = 'admin-item';
+                div.onclick = () => {
+                    previousAdminView = 'overview';
+                    setAdminView('tzevet');
+                    // Scroll to tzevet section would be ideal here
+                };
+                div.innerHTML = `
+                    <div class="admin-item-header">
+                        <div class="admin-item-name">צוות ${rakaz.name}</div>
+                        <div class="admin-item-id">${tzevetKatagis.length} מתנסים</div>
+                    </div>
+                    <div class="admin-progress">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${avgTzevetProgress}%"></div>
+                        </div>
+                        <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                            התקדמות ממוצעת: ${avgTzevetProgress}%
+                        </div>
+                    </div>
+                `;
+                overviewContent.appendChild(div);
+            }
+        }
+
+        function displayAdminTzevetView() {
+            const tzevetContent = document.getElementById('tzevetContent');
+            tzevetContent.innerHTML = '';
+
+            for (const rakazId in allRakazData) {
+                const rakaz = allRakazData[rakazId];
+                const tzevetKatagis = [];
+                let tzevetTotalProgress = 0;
+                let completedTasks = 0;
+                let totalTasks = 0;
+
+                if (rakaz.tzevet) {
+                    for (const katagisId in rakaz.tzevet) {
+                        if (allKatagisData[katagisId]) {
+                            const katagis = allKatagisData[katagisId];
+                            tzevetKatagis.push({
+                                id: katagisId,
+                                ...katagis
+                            });
+                            tzevetTotalProgress += calculateProgress(katagis.status);
+                            
+                            // Count completed tasks
+                            missions.forEach(missionId => {
+                                const current = katagis.status[missionId] || 0;
+                                const total = missionDetails[missionId].total;
+                                totalTasks += total;
+                                completedTasks += current;
+                            });
+                        }
+                    }
+                }
+
+                const avgTzevetProgress = tzevetKatagis.length > 0 ? 
+                    Math.round(tzevetTotalProgress / tzevetKatagis.length) : 0;
+
+                const tzevetSection = document.createElement('div');
+                tzevetSection.className = 'tzevet-section';
+                tzevetSection.innerHTML = `
+                    <div class="tzevet-header">
+                        <div class="tzevet-name">צוות ${rakaz.name}</div>
+                        <div class="tzevet-stats">
+                            <div class="stat-item">${tzevetKatagis.length} מתנסים</div>
+                            <div class="stat-item">${completedTasks} / ${totalTasks} משימות</div>
+                            <div class="stat-item">${avgTzevetProgress}% ממוצע</div>
+                        </div>
+                    </div>
+                    <div class="admin-list" id="tzevet-${rakazId}"></div>
+                `;
+                tzevetContent.appendChild(tzevetSection);
+
+                const listDiv = tzevetSection.querySelector(`#tzevet-${rakazId}`);
+                tzevetKatagis.forEach(katagis => {
+                    const progress = calculateProgress(katagis.status);
+                    const div = document.createElement('div');
+                    div.className = 'admin-item';
+                    div.onclick = () => showAdminDetail(katagis.id);
+                    div.innerHTML = `
+                        <div class="admin-item-header">
+                            <div class="admin-item-name">${katagis.name}</div>
+                            <div class="admin-item-id">${katagis.id}</div>
+                        </div>
+                        <div class="admin-progress">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: ${progress}%"></div>
+                            </div>
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                                התקדמות: ${progress}%
+                            </div>
+                        </div>
+                    `;
+                    listDiv.appendChild(div);
+                });
+            }
+        }
+
+        function displayAdminAllView() {
             const listDiv = document.getElementById('adminKatagisList');
             listDiv.innerHTML = '';
-
-            document.getElementById('adminDetailView').classList.add('hidden');
 
             for (const userId in allKatagisData) {
                 const katagis = allKatagisData[userId];
@@ -777,7 +1085,10 @@
                 div.className = 'admin-item';
                 div.onclick = () => showAdminDetail(userId);
                 div.innerHTML = `
-                    <div class="admin-item-name">${katagis.name}</div>
+                    <div class="admin-item-header">
+                        <div class="admin-item-name">${katagis.name}</div>
+                        <div class="admin-item-id">${userId}</div>
+                    </div>
                     <div class="admin-progress">
                         <div class="progress-bar-container">
                             <div class="progress-bar" style="width: ${progress}%"></div>
@@ -791,19 +1102,23 @@
             }
         }
 
-        window.showAdminList = function() {
-            displayAdminList();
-        };
-
         window.showAdminDetail = function(userId) {
+            previousAdminView = currentAdminView;
             selectedKatagisId = userId;
             const katagis = allKatagisData[userId];
 
-            document.getElementById('adminKatagisList').style.display = 'none';
+            document.getElementById('adminOverview').classList.add('hidden');
+            document.getElementById('adminTzevetView').classList.add('hidden');
+            document.getElementById('adminAllView').classList.add('hidden');
             document.getElementById('adminDetailView').classList.remove('hidden');
             document.getElementById('adminSelectedName').textContent = katagis.name;
 
             displayAdminChecklist(katagis.status);
+        };
+
+        window.backFromAdminDetail = function() {
+            selectedKatagisId = null;
+            setAdminView(previousAdminView);
         };
 
         function displayAdminChecklist(status) {
@@ -829,12 +1144,53 @@
                             ${current} / ${total} ${isCompleted ? '✓ הושלם' : ''}
                         </div>
                     </div>
+                    <div class="action-buttons">
+                        <button class="check-button" onclick="incrementAdminProgress('${missionId}')" ${isCompleted ? 'disabled' : ''}>
+                            ${isCompleted ? 'הושלם' : '+ סימון'}
+                        </button>
+                        <button class="reset-button" onclick="resetAdminTask('${missionId}')">
+                            איפוס
+                        </button>
+                    </div>
                 `;
                 checklistDiv.appendChild(div);
             });
 
             updateOverallProgress('admin', status);
         }
+
+        window.incrementAdminProgress = async function(missionId) {
+            if (!selectedKatagisId) return;
+
+            const katagisData = await getIdData(selectedKatagisId);
+            const current = katagisData.status[missionId] || 0;
+            const total = missionDetails[missionId].total;
+
+            if (current < total) {
+                const updates = {};
+                updates[`${selectedKatagisId}/status/${missionId}`] = current + 1;
+                await update(ref(db), updates);
+                
+                // Refresh data
+                allKatagisData[selectedKatagisId] = await getIdData(selectedKatagisId);
+                showAdminDetail(selectedKatagisId);
+            }
+        };
+
+        window.resetAdminTask = async function(missionId) {
+            if (!selectedKatagisId) return;
+
+            const title = missionDetails[missionId].title;
+            if (confirm(`האם לאפס את ההתקדמות במשימה: "${title}"?`)) {
+                const updates = {};
+                updates[`${selectedKatagisId}/status/${missionId}`] = 0;
+                await update(ref(db), updates);
+                
+                // Refresh data
+                allKatagisData[selectedKatagisId] = await getIdData(selectedKatagisId);
+                showAdminDetail(selectedKatagisId);
+            }
+        };
 
         // Helper Functions
         function calculateProgress(status) {
@@ -887,11 +1243,6 @@
         function hideError() {
             document.getElementById('loginError').classList.add('hidden');
         }
-
-        // Make functions globally available
-        window.incrementRakazProgress = incrementRakazProgress;
-        window.resetRakazTask = resetRakazTask;
-        window.showAdminDetail = showAdminDetail;
 
         // Initialize on load
         init();
